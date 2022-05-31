@@ -1,1 +1,1 @@
-"# 2022Everybot" 
+Code for the 2022 Everybot competition. 
