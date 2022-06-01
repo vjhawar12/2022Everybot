@@ -4,18 +4,21 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX; 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+
+
 
 public class Robot extends TimedRobot {
 
-  VictorSPX frontLeft = new VictorSPX(deviceNumber);
-  VictorSPX frontRight = new VictorSPX(deviceNumber); 
-  VictorSPX rearLeft = new VictorSPX(deviceNumber); 
-  VictorSPX rearRight = new VictorSPX(deviceNumber); 
-
-  Joystick joystick = new Joystick(port); 
+  CANSparkMax frontRight = new CANSparkMax(1, MotorType.kBrushed);  
 
   @Override
   public void robotInit() {
