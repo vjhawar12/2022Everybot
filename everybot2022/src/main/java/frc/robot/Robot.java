@@ -62,13 +62,13 @@ public class Robot extends TimedRobot implements Constants {
 
   private void moveArm() {
     if (armUp) {
-      if (Timer.getFPGATimestamp() - lastBurstTime < armTimeUp) {
+      if (getTime() - lastBurstTime < armTimeUp) {
         arm.set(armTravel); 
       } else {
         arm.set(armHoldUp); 
       }
     } else {
-      if (Timer.getFPGATimestamp() - lastBurstTime < armTimeDown) {
+      if (getTime() - lastBurstTime < armTimeDown) {
         arm.set(-armTravel); 
       } else {
         arm.set(-armHoldUp); 
