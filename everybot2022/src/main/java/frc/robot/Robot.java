@@ -18,6 +18,7 @@ public class Robot extends TimedRobot implements Constants {
   private CANSparkMax rearRight = new CANSparkMax(REAR_RIGHT, MotorType.kBrushed);  
   private CANSparkMax rearLeft = new CANSparkMax(REAR_LEFT, MotorType.kBrushed);
   private CANSparkMax arm = new CANSparkMax(ARM, MotorType.kBrushless); 
+  private CANSparkMax climber = new CANSparkMax(CLIMBER, MotorType.kBrushless); 
   private VictorSPX intake = new VictorSPX(INTAKE); 
 
   private PS4Controller controller = new PS4Controller(0); 
@@ -87,6 +88,10 @@ public class Robot extends TimedRobot implements Constants {
         stop(); 
       }
     } 
+  }
+  
+  private void climb() {
+    climber.set(100);
   }
 
   @Override
