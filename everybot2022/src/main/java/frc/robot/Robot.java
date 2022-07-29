@@ -4,23 +4,22 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 
-
-
 public class Robot extends TimedRobot implements Constants {
-  private CANSparkMax frontRight = new CANSparkMax(FRONT_RIGHT, MotorType.kBrushed);  
-  private CANSparkMax frontLeft = new CANSparkMax(FRONT_LEFT, MotorType.kBrushed);  
-  private CANSparkMax rearRight = new CANSparkMax(REAR_RIGHT, MotorType.kBrushed);  
-  private CANSparkMax rearLeft = new CANSparkMax(REAR_LEFT, MotorType.kBrushed);
+  private VictorSPX frontRight = new VictorSPX(FRONT_RIGHT);  
+  private VictorSPX frontLeft = new VictorSPX(FRONT_LEFT);  
+  private VictorSPX rearRight = new VictorSPX(REAR_RIGHT);  
+  private VictorSPX rearLeft = new VictorSPX(REAR_LEFT);
   private CANSparkMax arm = new CANSparkMax(ARM, MotorType.kBrushless); 
   private CANSparkMax climber = new CANSparkMax(CLIMBER, MotorType.kBrushless); 
   private VictorSPX intake = new VictorSPX(INTAKE); 
-
+  private DifferentialDrive drive = new DifferentialDrive(frontLeft, frontRight); 
   private PS4Controller controller = new PS4Controller(0); 
 
   private boolean armUp = true;
@@ -34,17 +33,15 @@ public class Robot extends TimedRobot implements Constants {
   }
 
   private void autoMove(double velocity) {
-    frontRight.set(velocity); 
-    frontLeft.set(velocity); 
-    rearRight.set(velocity); 
-    rearLeft.set(velocity); 
+    rearLeft.follow(frontLeft); 
+    rearRight.follow(frontRight);  
+    drive.arcadeDrive(velocity, velocity);
   }
 
-  private void teleopMove(double right, double left) {
-    frontRight.set(right); 
-    rearRight.set(right); 
-    frontLeft.set(left); 
-    rearLeft.set(left); 
+  private void teleopMove(double forward, double horizontal) {
+    rearLeft.follow(frontLeft); 
+    rearRight.follow(frontRight);  
+    drive.arcadeDrive(horizontal, forward);
   }
 
   private void setIntake() {
@@ -111,13 +108,9 @@ public class Robot extends TimedRobot implements Constants {
 
   @Override
   public void teleopPeriodic() {
-    double forwardSpeed = -controller.getRawAxis(1); 
-    double turnSpeed = -controller.getRawAxis(2); 
-
-    double driveLeft = forwardSpeed - turnSpeed; 
-    double driveRight = forwardSpeed + turnSpeed; 
-
-    teleopMove(driveRight, driveLeft); 
+    double forward = controller.getRawAxis(JOYSTICK_LEFT); 
+    double horizontal = controller.getRawAxis(JOYSTICK_RIGHT); 
+    teleopMove(forward, horizontal);
     setIntake(); 
     moveArm(); 
 

@@ -11,4 +11,7 @@ public interface Constants {
     public double armHoldUp = 0.08;
     public double armTimeUp = 0.5;  
     public double armTimeDown = 0.35; 
+    public int JOYSTICK_RIGHT = 4; 
+    public int JOYSTICK_LEFT = 1; 
+    public int CLIMBER = 7; 
 }
